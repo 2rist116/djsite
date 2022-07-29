@@ -3,21 +3,11 @@ from django.shortcuts import redirect, render
 
 from .models import *
 
-menu = [
-    {'title': "О сайте", 'url_name': "about"},
-    {'title': "Добавить статью", 'url_name': "add_page"},
-    {'title': "Обратная связь", 'url_name': "contact"},
-    {'title': "Войти", 'url_name': "login"},
-]
-
 
 def index(request):
     posts = Women.objects.all()
-    cats = Category.objects.all()
     context = {
-        'menu': menu,
         'posts': posts,
-        'cats': cats,
         'title': 'Главная страница',
         'cat_selected': 0,
     }
@@ -26,7 +16,7 @@ def index(request):
 
 
 def about(request):
-    return render(request, "women/about.html", {'menu': menu, 'title': 'О сайте'})
+    return render(request, "women/about.html", {'title': 'О сайте'})
 
 
 def addpage(request):
@@ -51,13 +41,10 @@ def show_post(request, post_id):
 
 def show_category(request, cat_id):
     posts = Women.objects.filter(cat_id=cat_id)
-    cats = Category.objects.all()
     if len(posts) == 0:
         raise Http404
     context = {
-        'menu': menu,
         'posts': posts,
-        'cats': cats,
         'title': 'Отображение по рубрикам',
         'cat_selected': cat_id,
     }
